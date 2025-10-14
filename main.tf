@@ -1292,34 +1292,34 @@ resource "juju_integration" "ironic-to-neutron" {
 }
 
 # juju integrate ironic-conductor:ceph-rgw-ready microceph:ceph-rgw-ready
-resource "juju_integration" "ironic-conductor-to-ceph-rgw-ready" {
-  count = var.enable-ironic && var.enable-ceph-rgw-ready ? length(data.juju_offer.microceph-ceph-rgw-ready) : 0
-  model = juju_model.sunbeam.name
+#resource "juju_integration" "ironic-conductor-to-ceph-rgw-ready" {
+#  count = var.enable-ironic && var.enable-ceph-rgw-ready ? length(data.juju_offer.microceph-ceph-rgw-ready) : 0
+#  model = juju_model.sunbeam.name
+#
+#  application {
+#    name     = module.ironic-conductor[count.index].name
+#    endpoint = "ceph-rgw-ready"
+#  }
+#
+#  application {
+#    offer_url = data.juju_offer.microceph-ceph-rgw-ready[count.index].url
+#  }
+#}
 
-  application {
-    name     = module.ironic-conductor[count.index].name
-    endpoint = "ceph-rgw-ready"
-  }
-
-  application {
-    offer_url = data.juju_offer.microceph-ceph-rgw-ready[count.index].url
-  }
-}
-
-# juju integrate glance:ceph-rgw-ready microceph:ceph-rgw-ready
-resource "juju_integration" "glance-to-ceph-rgw-ready" {
-  count = var.enable-ironic && var.enable-ceph-rgw-ready ? length(data.juju_offer.microceph-ceph-rgw-ready) : 0
-  model = juju_model.sunbeam.name
-
-  application {
-    name     = module.glance.name
-    endpoint = "ceph-rgw-ready"
-  }
-
-  application {
-    offer_url = data.juju_offer.microceph-ceph-rgw-ready[count.index].url
-  }
-}
+## juju integrate glance:ceph-rgw-ready microceph:ceph-rgw-ready
+#resource "juju_integration" "glance-to-ceph-rgw-ready" {
+#  count = var.enable-ironic && var.enable-ceph-rgw-ready ? length(data.juju_offer.microceph-ceph-rgw-ready) : 0
+#  model = juju_model.sunbeam.name
+#
+#  application {
+#    name     = module.glance.name
+#    endpoint = "ceph-rgw-ready"
+#  }
+#
+#  application {
+#    offer_url = data.juju_offer.microceph-ceph-rgw-ready[count.index].url
+#  }
+#}
 
 module "nova-ironic-shards" {
   for_each             = var.ironic-compute-shards
@@ -1392,19 +1392,19 @@ module "ironic-conductor-groups" {
 }
 
 # juju integrate ironic-conductor-<group>:ceph-rgw-ready microceph:ceph-rgw-ready
-resource "juju_integration" "ironic-conductor-groups-to-ceph-rgw-ready" {
-  for_each = var.ironic-conductor-groups
-  model    = juju_model.sunbeam.name
-
-  application {
-    name     = module.ironic-conductor-groups[each.key].name
-    endpoint = "ceph-rgw-ready"
-  }
-
-  application {
-    offer_url = data.juju_offer.microceph-ceph-rgw-ready[0].url
-  }
-}
+#resource "juju_integration" "ironic-conductor-groups-to-ceph-rgw-ready" {
+#  for_each = var.ironic-conductor-groups
+#  model    = juju_model.sunbeam.name
+#
+#  application {
+#    name     = module.ironic-conductor-groups[each.key].name
+#    endpoint = "ceph-rgw-ready"
+#  }
+#
+#  application {
+#    offer_url = data.juju_offer.microceph-ceph-rgw-ready[0].url
+#  }
+#}
 
 resource "juju_application" "neutron-baremetal-switch-config" {
   count = var.enable-ironic ? 1 : 0
